@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acer</title>
+  <script src="assets/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="assets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+  <!--<script src="js/user.js"></script>
+   <script src="js/aop.js"></script>-->
+
+
+</head>
+
+<body>
+  <div id="app" class="wrapper" style="height:450px">
+    <div class="fruit-title">
+      <h2>Apple</h2>
+      <p>Price/KG: 100</p>
+    </div>
+    <div class="fruit-left">
+      <img src="img/Apple.png">
+    </div>
+    <div class="fruit-right">
+      <table>
+        <tr>
+          <td>Unit: </td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Weight: </td>
+          <td>1 KG</td>
+        </tr>
+        <tr>
+          <td>Total: </td>
+          <td>$ 100</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="clear"></div>
+    <div class="fruit-send">
+      <button id="btn" class="fruit-button">CHECK OUT</button>
+    </div>
+  </div>
+
+  <div id="app_get" class="wrapper">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="gallery">
+          <img src="img/Apple.png" width="300" height="200" />
+          <div class="desc" id="Apple"> KG</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="gallery">
+          <img src="img/Lemon.png" width="300" height="200" />
+          <div class="desc" id="Lemon"> KG</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="gallery">
+          <img src="img/Orange.png" width="300" height="200" />
+          <div class="desc" id="Orange"> KG</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="gallery">
+          <img src="img/Lychee.png" width="300" height="200" />
+          <div class="desc" id="Lychee"> KG</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="gallery">
+          <img src="img/Grapes.png" width="300" height="200" />
+          <div class="desc" id="Grapes"> KG</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    //aop.aopDownload();
+    //console.log(stock);
+    var stock;
+var aaa = ['Apple','Lemon','Orange','Lychee','Grapes'];
+    for(var i=0;i<5;i++){
+      document.getElementById(aaa[i]).innerHTML = stock[aaa[i]] + ' KG';
+    }
+
+
+
+    var bindClick = function(id, func) {
+      if (typeof id == 'string') {
+        id = document.getElementById(id);
+      }
+      id.addEventListener('click', func, true);
+      id.addEventListener('touchmove', func, true);
+    };
+
+    bindClick('btn', function () { 
+      stock['Lemon'] = stock['Lemon']-1;
+      cpf.getAiValue("cam.json");
+      //aop.aopUpload();
+      location.reload();
+    });
+  </script>
+</body>
+
+
+
+</html>

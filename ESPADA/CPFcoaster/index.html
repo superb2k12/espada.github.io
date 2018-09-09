@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<head>
+<title>CPF-Coaster</title>
+
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="./style.css">
+
+</head>
+<body>
+<div class="container">
+		
+	<div id="bg"></div>
+	<!-- 標題 -->
+	<div id="title-edit">
+		<center>
+			<h2>標題設定</h2>
+			<span>第一行：<input type="text" id="title1-value" maxlength="9"></input></span><br><br><br>
+			<span>第二行：<input type="text" id="title2-value" maxlength="9"></input></span>
+			<button onclick="changeTitle()">確認</button>
+		</center>
+	</div>
+	
+	<div id="flower-field">
+		<img id="flower" src="./images/flower.png" />
+	</div>
+	
+	<div id="font-field">
+		<font id="title1">平安喜樂</font><br>
+		<font id="title2">平安喜樂</font>
+	</div>
+	<!---------->
+	
+	<!-- 物品 -->
+	<div id="item-edit">
+		<center>
+		<img onclick="changeItem('cup', 5)" src="./images/item1.png" />
+		<img onclick="changeItem('bowl', 5)" src="./images/item2.png" />
+		<img onclick="changeItem('milk', 8)" src="./images/item3.png" />
+		</center>
+	</div>
+	
+	<div id="item-field">
+		<img id="item-img" src="./images/cup.png" >
+	</div>
+	<!---------->
+	
+	<!-- 數值 -->
+	<div id="value-field">
+			<img class="value-icon" src="./images/temperature.png" />
+			<span id="temp" class="value-number">70℃</span><br>
+			<img class="value-icon2" src="./images/weighing.png" />
+			<span id="weight" class="value-number2">1234 公克</span>
+	</div>
+	<!---------->
+	
+	<!-- 容量 -->
+	<div id="date">
+		<script>
+			document.getElementById("date").innerHTML = new Date().getMonth()+1 + '/' + new Date().getDate();
+		</script>
+	</div>
+	
+	<div id="cup-field">
+	</div>
+	<div id="cup-date">
+	</div>
+	<span class="cup-value" id="cup_value"><font color="#3CB9A6" id="total">1600</font> ml</span>
+	<!---------->
+	
+</div>
+
+<script>
+	
+	setup();
+	
+	var temp;
+	var now_press;
+	var prev_press;
+	var drink_press;
+	var total = 0;
+	var drinktime;
+	
+	var slug = false;
+	var milk_slug = false;
+	var milk_count = 0;
+	
+	var item = 'cup';
+	changeItem(item, 5);
+	
+	var interval;
+	
+	function loop(name) {
+	
+		temp = cpf.get("a1");
+		now_press = cpf.get("a0");
+		
+		if(name == 'cup') {
+			var unit = '公克';
+			now_press = Math.round(now_press * 1.5);
+		} else if (name == 'bowl') {
+			var unit = '卡';
+			now_press = Math.round((now_press * 1.5) * 4);
+		}
+		
+		document.getElementById("temp").innerHTML = toCelsius(temp) + '℃';
+		document.getElementById("weight").innerHTML = now_press + unit;
+		
+		if (now_press == 0) {
+			drink_press = prev_press;
+			drinktime = Date.now();
+			slug = true;
+		} else {
+			if(slug) {
+				if (Date.now() - drinktime >= 5000) {
+					if (drink_press - now_press > 20) {
+						total += drink_press - now_press;
+					}
+					slug = false;
+				}
+			}
+			prev_press = now_press;
+		}
+		
+		var item_img = document.getElementById("cup-field").getElementsByTagName("img");
+		var image_empty = name + '_empty.png';
+		var image_full = name + '_full.png';
+		
+		if(total >= 2000) {
+			for(var i = 0; i < item_img.length; i++) {
+				item_img[i].src = './images/' + image_empty;
+			}
+		} else if(total >= 1600) {
+			for(var i = 0; i < item_img.length; i++) {
+				if(i <= 3) {
+					item_img[i].src = './images/' + image_full;
+				} else {
+					item_img[i].src = './images/' + image_empty;
+				}
+			}
+		} else if(total >= 1200) {
+			for(var i = 0; i < item_img.length; i++) {
+				if(i <= 2) {
+					item_img[i].src = './images/' + image_full;
+				} else {
+					item_img[i].src = './images/' + image_empty;
+				}
+			}
+		} else if(total >= 800) {
+			for(var i = 0; i < item_img.length; i++) {
+				if(i <= 1) {
+					item_img[i].src = './images/' + image_full;
+				} else {
+					item_img[i].src = './images/' + image_empty;
+				}
+			}
+		} else if(total >= 400) {
+			for(var i = 0; i < item_img.length; i++) {
+				if(i == 0) {
+					item_img[i].src = './images/' + image_full;
+				} else {
+					item_img[i].src = './images/' + image_empty;
+				}
+			}
+		} else {
+			for(var i = 0; i < item_img.length; i++) {
+				item_img[i].src = './images/' + image_empty;
+			}
+		}
+		
+		document.getElementById("total").innerHTML = total;
+		
+	}
+	
+	function milk_loop() {
+		temp = cpf.get("a1");
+		now_press = cpf.get("a0");
+		now_press = Math.round(now_press * 1.5);
+		
+		document.getElementById("temp").innerHTML = toCelsius(temp) + '℃';
+		document.getElementById("weight").innerHTML = now_press + '公克';
+		
+		var item_img = document.getElementById("cup-field").getElementsByTagName("img");
+		
+		if(now_press == 0 && milk_slug == true) {
+			if(milk_count < 8) {
+				var d = new Date();
+				item_img[milk_count].src = './images/milk_full.png';
+				document.getElementById("cup-date").innerHTML += '<span>'+d.getHours()+':'+d.getMinutes()+'</span>';
+				milk_slug = false;
+				milk_count += 1;
+			}
+		} else if(now_press > 10) {
+			milk_slug = true;
+		}
+	}
+	
+	// 改變標題
+	function changeTitle() {
+		var value1 = document.getElementById("title1-value").value;
+		var value2 = document.getElementById("title2-value").value;
+		var len1;
+		var len2;
+		
+		if(value1.length > 5) {
+			len1 = 5 - ((value1.length - 5) / 2);
+		} else if (value1.length < 5) {
+			len1 = 5 + (5 - value1.length);
+		} else {
+			len1 = value1.length;
+		}
+		
+		if(value2.length > 5) {
+			len2 = 5 - ((value2.length - 5) / 2);
+		} else if (value2.length < 5) {
+			len2 = 5 + (5 - value2.length);
+		} else {
+			len2 = value2.length;
+		}
+		
+		document.getElementById("title1").style.fontSize = len1 + 'vw';
+		document.getElementById("title2").style.fontSize = len2 + 'vw';
+		
+		document.getElementById("title1").innerHTML = value1;
+		document.getElementById("title2").innerHTML = value2;
+		
+		document.getElementById("title-edit").style.display = 'none';
+		document.getElementById("bg").style.display = 'none';
+	}
+	
+	// 改變物品事件
+	function changeItem(name, count) {
+	
+		document.getElementById("item-img").src = './images/'+name+'.png';
+		total = 0;
+		
+		// 重置下排物品圖片&日期
+		document.getElementById("cup-field").innerHTML = '';
+		document.getElementById("cup-date").innerHTML = '';
+		for(var i = 1; i <= count; i++) {
+			document.getElementById("cup-field").innerHTML += '<img class="cup-icon" src="./images/'+name+'_empty.png" />';
+		}
+		
+		// 設定每項物品的介面
+		if(name == 'cup') {
+			document.getElementById("cup_value").innerHTML ='<font color="#3CB9A6" id="total">0</font> ml';
+			document.getElementById("cup_value").style.right ='11%';
+			document.getElementById("title1").innerHTML = '平安喜樂';
+			document.getElementById("title2").innerHTML = '';
+			document.getElementById("title1").style.fontSize = '6vw';
+		} else if(name == 'bowl') {
+			document.getElementById("cup_value").innerHTML ='<font color="#4FA136" id="total">0</font> kcal';
+			document.getElementById("cup_value").style.right ='6%';
+			document.getElementById("title1").innerHTML = '粒粒皆辛苦';
+			document.getElementById("title2").innerHTML = '';
+			document.getElementById("title1").style.fontSize = '5vw';
+		} else if(name == 'milk') {
+			document.getElementById("cup_value").innerHTML ='';
+			document.getElementById("title1").innerHTML = '一暝大一寸';
+			document.getElementById("title2").innerHTML = '';
+			document.getElementById("title1").style.fontSize = '5vw';
+		}
+		
+		// 隱藏跳出視窗
+		document.getElementById("item-edit").style.display = 'none';
+		document.getElementById("bg").style.display = 'none';
+		
+		// 清除迴圈
+		clearInterval(interval);
+		
+		// 開啟迴圈
+		if(name == 'milk') {
+			milk_slug = false;
+			milk_count = 0;
+			interval = setInterval(function(){
+				milk_loop(name);
+			}, 1000);
+		} else {
+			interval = setInterval(function(){
+				loop(name);
+			}, 1000);
+		}
+	}
+	
+	document.getElementById("flower").addEventListener("click", function() {
+		document.getElementById("title-edit").style.display = 'inline';
+		document.getElementById("bg").style.display = 'inline';
+	});
+	
+	document.getElementById("item-field").addEventListener("click", function() {
+		document.getElementById("item-edit").style.display = 'inline';
+		document.getElementById("bg").style.display = 'inline';
+	});
+	
+	document.getElementById("bg").addEventListener("click", function() {
+		document.getElementById("title-edit").style.display = 'none';
+		document.getElementById("item-edit").style.display = 'none';
+		document.getElementById("bg").style.display = 'none';
+	});
+	
+	// 溫度轉攝氏
+	function toCelsius(value) {
+		var steinhart;
+
+		// convert the value to resistance
+		value = 1023 / value - 1;
+		value = 10000 / value;
+
+		steinhart=Math.log(value/10000);
+		steinhart /= 3950;
+		steinhart += 1.0 / (25 + 273.15);
+		steinhart = 1.0 / steinhart;
+		steinhart -= 273.15;
+		return Math.round(steinhart);
+	}
+	
+	// cpf setup
+	function setup(){
+		if(cpf)
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1, "INPUT"]');
+	
+	}
+
+</script>
+
+</body>
+</html>
