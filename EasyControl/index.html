@@ -56,6 +56,7 @@
 			document.getElementById("temperaturevalue").innerHTML = celsius;
             document.getElementById("humidityvalue").innerHTML=humidity;
             document.getElementById("dustvalue").innerHTML=dust;
+			
 		}
 		setTimeout(loop, 1000);
 	}
@@ -74,9 +75,10 @@
 	// cpf setup
 	function setup(){
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode","INPUT",5,"DUST"]'); 
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",2,"DUST"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
 	}
+	
 </script>
 </body>
 </html>
