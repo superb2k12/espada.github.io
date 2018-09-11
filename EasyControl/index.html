@@ -49,7 +49,7 @@
 			lightdata = cpf.get("light sensor");
 			tempdata = cpf.get("temperature sensor");
             humidity=cpf.get("DHT11","d6","dht11humi");
-            dust =cpf.get(d5);
+            dust =cpf.get(d2);
             
 			celsius = toCelsius(tempdata);	
 			document.getElementById("lightvalue").innerHTML = lightdata;
