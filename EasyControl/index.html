@@ -49,7 +49,7 @@
 			lightdata = cpf.get("light sensor");
 			tempdata = cpf.get("temperature sensor");
             humidity=cpf.get("DHT11","d6","dht11humi");
-            dust =cpf.get(d2);
+            dust =cpf.get("d5");
             
 			celsius = toCelsius(tempdata);	
 			document.getElementById("lightvalue").innerHTML = lightdata;
@@ -75,7 +75,7 @@
 	// cpf setup
 	function setup(){
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",2,"DUST"]'); 
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",5,"DUST"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
 	}
 	
