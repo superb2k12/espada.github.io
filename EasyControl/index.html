@@ -60,7 +60,8 @@
             humidity=cpf.get("DHT11","d6","dht11humi");
             dust =cpf.get("d5");
             co=cpf.get("a2");
-            
+            cpf.get("DHT22","d3","dht22humi");
+            cpf.get("DHT22","d3","dht22temp");
 			celsius = toCelsius(tempdata);	
 			document.getElementById("lightvalue").innerHTML = lightdata;
 			document.getElementById("temperaturevalue").innerHTML = celsius;
