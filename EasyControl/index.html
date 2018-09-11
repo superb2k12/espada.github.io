@@ -30,6 +30,10 @@
 				<span class="analogvalue" id="dustvalue">none</span>
 			</div>
             
+            <div class="analogclass">
+				<img class="analogsensor" src="img/dust.png" />
+				<span class="analogvalue" id="covalue">none</span>
+			</div>
             
 		</div>				
 		</div>
@@ -41,6 +45,7 @@
 	var celsius;
     var humidity;
     var dust;
+    var co;
 	setup();
 	// Analog
 	function loop() {
@@ -50,12 +55,14 @@
 			tempdata = cpf.get("temperature sensor");
             humidity=cpf.get("DHT11","d6","dht11humi");
             dust =cpf.get("d5");
+            co=cpf.get("a2");
             
 			celsius = toCelsius(tempdata);	
 			document.getElementById("lightvalue").innerHTML = lightdata;
 			document.getElementById("temperaturevalue").innerHTML = celsius;
             document.getElementById("humidityvalue").innerHTML=humidity;
             document.getElementById("dustvalue").innerHTML=dust;
+            document.getElementById("covalue").innerHTML=co;
 			
 		}
 		setTimeout(loop, 1000);
@@ -75,7 +82,7 @@
 	// cpf setup
 	function setup(){
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",5,"DUST"]'); 
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "analog", 2,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",5,"DUST"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
 	}
 	
