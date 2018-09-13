@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="main.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
 </head>
 <body>
 <font id="title">Air Quality Monitoring</font><p><br>
@@ -43,7 +44,7 @@
 	</div>
     
 <script>
-	
+	var lightdata;
 	var tempdata;
 	var celsius;
     var humidity;
@@ -52,9 +53,11 @@
     var dht22
 	setup();
 	// Analog
+    
+
 	function loop() {
 		if(cpf){
-			lightdata = cpf.get("light sensor");
+            lightdata = cpf.get("light sensor");
 			tempdata = cpf.get("temperature sensor");
             humidity=cpf.get("DHT11","d6","dht11humi");
             dust =cpf.get("d5");
@@ -68,6 +71,13 @@
             document.getElementById("dustvalue").innerHTML=dust;
             document.getElementById("covalue").innerHTML=co;
 			document.getElementById("dht22value").innerHTML=dht22;
+            if(lightdata<200)
+                {
+                    cpf.set("rgb led", 255, 255, 255);
+                }
+            else{
+                    cpf.set("rgb led", 0,0,0);   
+            }
 		}
 		setTimeout(loop, 1000);
 	}
@@ -86,7 +96,7 @@
 	// cpf setup
 	function setup(){
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "analog", 2,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",5,"DUST"],["setPinMode", "digital", 3,"DHT22"]'); 
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "analog", 2,"INPUT"],["setPinMode", "digital",6, "DHT11"],["setPinMode", "digital",5,"DUST"],["setPinMode", "digital", 3,"DHT22"],["grove_newChainableLED,7,8,1"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
 	}
 	
