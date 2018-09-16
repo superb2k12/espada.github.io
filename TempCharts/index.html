@@ -26,7 +26,7 @@
 			obj = {"date": time, "temperature": Celsius};
 			json.push(obj);
 			
-			document.getElementById("temp").innerHTML = "第 " + index + " 筆";
+			document.getElementById("temp").innerHTML = "First " + index + " pen";
 			
 			index += 1;
 		}
@@ -85,7 +85,7 @@
 		hAxes: {
           // Adds titles to each axis.
           0: {
-			title: 'Time of day\n' + '共 ' + result.length + ' 筆',
+			title: 'Time of day\n' + 'Total ' + result.length + ' pen',
 			titleTextStyle: {fontSize: 26}
 		  }
         },
