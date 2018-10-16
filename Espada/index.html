@@ -14,7 +14,7 @@
 	<div class="col-sm-12  col-xs-12">
 		<div id="analog" class="col-sm-6 col-xs-12">
 			<div class="analogclass">
-				<img class="analogsensor" src="img/light.png" />
+                
 				<span class="analogvalue" id="gasvalue">none</span><br>
 			</div>
 			<p>
@@ -27,18 +27,11 @@
 <script>
 	
 	var gasdata;
-	
 	setup();
-	// Analog
 	function loop() {
 		if(cpf){
-	
-			gasdata = cpf.get("d12");
-
+			gasdata = cpf.get("a0");
 			document.getElementById("gasvalue").innerHTML = gasdata;
-
- 
-			
 		}
 		setTimeout(loop, 1000);
 	}
@@ -50,7 +43,7 @@
 	// cpf setup
 	function setup(){
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "digital", 12,"INPUT"]');
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"]');
 			//document.getElementById("demo").innerHTML += ret + "<br>";
 	}
 	
