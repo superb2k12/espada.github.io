@@ -15,8 +15,19 @@
 		<div id="analog" class="col-sm-6 col-xs-12">
 			<div class="analogclass">
                 Parking Slot 1: 
-                <span class="analogvalue" id="parkstatus">none</span><br>
+                <span class="analogvalue" id="parkstatus1">none</span><br>
 			</div>
+            <div class="analogclass">
+                Parking Slot 2: 
+                <span class="analogvalue" id="parkstatus2">none</span><br>
+			</div>
+            <div class="analogclass">
+                Parking Slot 3: 
+                <span class="analogvalue" id="parkstatus3">none</span><br>
+			</div>
+            
+            
+            
 			<p>
 
 		</div>
@@ -26,21 +37,48 @@
 
 <script>
 	
-	var parkdata;
-    var parkstatus;
+	var parkdata1;
+    var parkstatus1;
+    var parkdata2;
+    var parkstatus2;
+    var parkdata3;
+    var parkstatus3;
+    
 	setup();
 	function loop() {
 		if(cpf){
-			parkdata = cpf.get("d2");
+			parkdata1 = cpf.get("d2");
+            parkdata1 = cpf.get("d3");
+            parkdata1 = cpf.get("d4");
 			//document.getElementById("parkvalue").innerHTML = parkdata;
-            document.getElementById("parkstatus").innerHTML = parkstatus;
-            if(parkdata==0)
+            document.getElementById("parkstatus1").innerHTML = parkstatus1;
+            if(parkdata1==0)
                 {
-                parkstatus="Occupied"
+                parkstatus1="Occupied"
                 }
             else
                 {
-                parkstatus="Vacant"
+                parkstatus1="Vacant"
+                }
+            
+            document.getElementById("parkstatus2").innerHTML = parkstatus2;
+            if(parkdata2==0)
+                {
+                parkstatus2="Occupied"
+                }
+            else
+                {
+                parkstatus2="Vacant"
+                }
+            
+            document.getElementById("parkstatus3").innerHTML = parkstatus3;
+            if(parkdata3==0)
+                {
+                parkstatus3="Occupied"
+                }
+            else
+                {
+                parkstatus3="Vacant"
                 }
 		}
 		setTimeout(loop, 1000);
@@ -53,7 +91,7 @@
 	// cpf setup
 	function setup(){
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "digital",2, "INPUT"]');
+			cpf.setPinMode('["resetPin"],["setPinMode", "digital",2, "INPUT"],["setPinMode", "digital",3, "INPUT"],["setPinMode", "digital",4, "INPUT"]');
 			//document.getElementById("demo").innerHTML += ret + "<br>";
 	}
 	
