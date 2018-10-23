@@ -15,7 +15,8 @@
 		<div id="analog" class="col-sm-6 col-xs-12">
 			<div class="analogclass">
                 
-				<span class="analogvalue" id="parkvalue">none</span><br>
+				<span class="analogvalue" id="parkvalue">none </span><br>
+                <span class="analogvalue" id="parkstatus">none </span><br>
 			</div>
 			<p>
 
@@ -27,11 +28,16 @@
 <script>
 	
 	var parkdata;
+    var parkstatus;
 	setup();
 	function loop() {
 		if(cpf){
 			parkdata = cpf.get("d2");
 			document.getElementById("parkvalue").innerHTML = parkdata;
+            if(parkdata==0)
+                parkstatus="Occupied"
+            else
+                parkstatus="Vacant"
 		}
 		setTimeout(loop, 1000);
 	}
