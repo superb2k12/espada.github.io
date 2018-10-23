@@ -15,7 +15,6 @@
 		<div id="analog" class="col-sm-6 col-xs-12">
 			<div class="analogclass">
                 Parking Slot 1: 
-				//<span class="analogvalue" id="parkvalue">none </span><br>
                 <span class="analogvalue" id="parkstatus">none</span><br>
 			</div>
 			<p>
@@ -33,7 +32,7 @@
 	function loop() {
 		if(cpf){
 			parkdata = cpf.get("d2");
-			document.getElementById("parkvalue").innerHTML = parkdata;
+			//document.getElementById("parkvalue").innerHTML = parkdata;
             document.getElementById("parkstatus").innerHTML = parkstatus;
             if(parkdata==0)
                 {
