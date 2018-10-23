@@ -34,10 +34,15 @@
 		if(cpf){
 			parkdata = cpf.get("d2");
 			document.getElementById("parkvalue").innerHTML = parkdata;
+            document.getElementById("parkstatus").innerHTML = parkstatus;
             if(parkdata==0)
+                {
                 parkstatus="Occupied"
+                }
             else
+                {
                 parkstatus="Vacant"
+                }
 		}
 		setTimeout(loop, 1000);
 	}
